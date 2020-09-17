@@ -1,0 +1,8 @@
+#################
+#     GitIgnore #
+#################
+
+.classpath
+.project
+/.settings
+/bin/

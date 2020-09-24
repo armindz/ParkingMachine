@@ -64,7 +64,7 @@ public class ParkingTicket {
 	@Override
 	public String toString() {
 		return "DATA LOG: \n \t\t\t  \n FROM: " + startDate + "\n TO: " + endDate.getTime() + "\n Price: " + ticketPrice
-				+ "\n Duration " + duration + "\n-------------------------- \n";
+				+ "KM \n Duration " + duration +  "min.\n-------------------------- \n";
 	
 	}
 	}

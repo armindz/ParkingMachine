@@ -42,8 +42,7 @@ public class ParkingMachineMain {
 			String keyboard = "42";
 			double coinAmount = 0;
 			int duration;
-			double overallCoinAmount = 0;
-			System.out.println(startDate);
+			double totalCoinAmount = 0;
 
 			if (cms.isSaturday(startDate)) {
 				cms.setSaturdayPrice(0.3, 0.6, 1, 5);
@@ -61,7 +60,6 @@ public class ParkingMachineMain {
 				double allDay = cms.getPrice1Day();
 				DatabaseStorage dst = new DatabaseStorage();
 
-			
 				// MENU DISPLAY
 
 				menuDisplayContent(startDate, halfHour, hour, twoHours, allDay);
@@ -70,7 +68,7 @@ public class ParkingMachineMain {
 
 					System.out.println("Amount: " + coinAmount);
 
-					if (coinAmount > 0 && cms.coinValidation(coinAmount)) {
+					if (coinAmount > 0 && cms.isCoinValid(coinAmount)) {
 
 						duration = cms.getDuration();
 						endDate.setTime(startDate);
@@ -89,21 +87,21 @@ public class ParkingMachineMain {
 
 						// Inserting 0.5KM
 						coinAmount += 0.5;
-						cms.coinValidation(coinAmount);
+						cms.isCoinValid(coinAmount);
 						break;
 
 					case "2":
 
 						// Inserting 1KM
 						coinAmount += 1;
-						cms.coinValidation(coinAmount);
+						cms.isCoinValid(coinAmount);
 						break;
 
 					case "3":
 
 						// Inserting 2KM
 						coinAmount += 2;
-						cms.coinValidation(coinAmount);
+						cms.isCoinValid(coinAmount);
 						break;
 
 					case "4":
@@ -113,7 +111,7 @@ public class ParkingMachineMain {
 							cms.purchaseDailyTicket(coinAmount);
 							ParkingTicket ticket = new ParkingTicket(coinAmount, startDate, endDate, cms.getDuration());
 							usageHistory.add(ticket);
-							overallCoinAmount += coinAmount;
+							totalCoinAmount += coinAmount;
 							coinAmount = 0;
 						}
 
@@ -129,32 +127,24 @@ public class ParkingMachineMain {
 						// PARKING MACHINE ADMINISTRATOR MENU LOGIN
 
 						adminMenu.config();
-						
+
 						// USERS PARKING MACHINE USAGE INFO
 						System.out.println(usageHistory.toString());
 						System.out.println(usageHistory.size() + " users.");
-						System.out.println("Overall amount in cashbox: " + overallCoinAmount);
+						System.out.println("Overall amount in cashbox: " + totalCoinAmount);
 						keyboard = "0";
 						continue;
 					}
 
 				}
 
-				overallCoinAmount += coinAmount;
+				totalCoinAmount += coinAmount;
 
 				// IF RETURNS TRUE ALLOW TICKET PURCHASING
-				if (coinAmount != allDay && coinAmount != 0.0 && cms.coinValidation(coinAmount)) {
+				if (coinAmount != allDay && coinAmount != 0.0 && cms.isCoinValid(coinAmount)) {
 
 					cms.purchaseIndividualTicket(coinAmount);
-					ParkingTicket individualTicket = new ParkingTicket(coinAmount, startDate, endDate, cms.getDuration());
-					usageHistory.add(individualTicket);
-
 				}
-
-			
-					
-
-				
 
 				// SET PARAMETERS TO DEFAULT VALUE FOR NEXT LAP
 				keyboard = "42";

@@ -36,7 +36,7 @@ public class CoinManagementSystem {
 	}
 	
 	
-	public boolean coinValidation(double coinAmount) {	// first step of validating coin amount
+	public boolean isCoinValid(double coinAmount) {	// first step of validating coin amount
 
 		if (coinAmount == halfHourPrice) {
 			duration = 30;
@@ -104,9 +104,12 @@ public class CoinManagementSystem {
 		}
 		
 		ticketPrice = coinAmount; 
+		ParkingTicket parkingTicket = new ParkingTicket(coinAmount, startDate, endDate, duration);
+		storeIndividualTicketToDatabase(parkingTicket);
+		System.out.println(parkingTicket.getStartDate()  );
 		displayIndividualTicketInfo(startDate, coinAmount, duration, endDate);
 		
-		storeIndividualTicketToDatabase();
+		
 
 	}
 
@@ -120,11 +123,11 @@ public class CoinManagementSystem {
 		System.out.println(endDate.getTime());
 	}
 
-	public void storeIndividualTicketToDatabase() {
+	public void storeIndividualTicketToDatabase(ParkingTicket ticket) {
 		
 		try {
 			DatabaseStorage dst = new DatabaseStorage();
-			dst.storeToDatabase();
+			dst.storeToDatabase(ticket);
 
 		}
 
@@ -153,8 +156,10 @@ public class CoinManagementSystem {
 			duration = TWENTY_FOUR_HOURS_INTO_MINUTES;
 			ticketPrice = coinAmount;
 			
+			ParkingTicket parkingTicket = new ParkingTicket(coinAmount, startDate, endDate, duration);
+			storeDailyTicketToDatabase(parkingTicket);
 			displayDailyTicketInfo(startDate, endDate);
-			storeDailyTicketToDatabase();
+			
 			
 			
 		}
@@ -170,18 +175,18 @@ public class CoinManagementSystem {
 
 		System.out.println("Current time \n" + startDate);
 		System.out.println("DAILY TICKET");
-		System.out.println("\nTime remaining \n" + 24 + " hrs");
+		System.out.println("\nTime remaining \n" + ONE_DAY_LENGTH_IN_HOURS + " hrs");
 
 		System.out.println("\nTicket expiration time");
 		System.out.println(endDate.getTime());
 
 	}
 
-	public void storeDailyTicketToDatabase () {
+	public void storeDailyTicketToDatabase (ParkingTicket ticket) {
 		try {
 
 			DatabaseStorage dst = new DatabaseStorage();
-			dst.storeToDatabase();
+			dst.storeToDatabase(ticket);
 
 		}
 
@@ -245,6 +250,7 @@ public class CoinManagementSystem {
 		return startWorking;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setStartWorking(int startHour) {
 	
 
@@ -255,6 +261,7 @@ public class CoinManagementSystem {
 		return stopWorking;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setStopWorking(int stopHour) {
 		
 		stopWorking.setHours( stopHour);

@@ -1,4 +1,5 @@
 package machine;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import database.DatabaseStorage;
@@ -76,7 +77,7 @@ public class AdministratorMenu {
 
 			case "6":
 				
-				ds.displayDatabaseContent();
+				displayDatabaseContent();
 				break;
 
 			}
@@ -84,7 +85,7 @@ public class AdministratorMenu {
 		}
 
 		catch (Exception e) {
-			System.out.println("Something went wrong !");
+			System.out.println("Something went wrong with administrator menu !");
 			e.printStackTrace();
 		}
 
@@ -93,6 +94,14 @@ public class AdministratorMenu {
 		}
 	}
 
+	
+	private void displayDatabaseContent() {  // method for displaying database content with ArrayList
+	
+		ArrayList <ParkingTicket> userInfo = new ArrayList<ParkingTicket> ();
+		ds.fetchDatabaseContent(userInfo);
+		System.out.println(userInfo);
+	}
+	
 	public String getLoginPassword() {
 		return loginPassword;
 	}

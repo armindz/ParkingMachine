@@ -16,7 +16,7 @@ public class AdministratorMenu {
 	
 	private double setPrice;
 	private String setPassword;
-
+ 
 	public void config() {
 
 		try {
